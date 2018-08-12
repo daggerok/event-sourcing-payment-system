@@ -463,7 +463,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.0.1,</span>
-<span id="revdate">2018-08-12 17:33:45 UTC</span>
+<span id="revdate">2018-08-12 17:38:06 UTC</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -560,9 +560,12 @@ class Rest {
       contentType(MediaType.APPLICATION_JSON_UTF8)
       GET("/**") {
         val map = mapOf(
-            "errors" to listOf(Error::class::qualifiedName),
-            "commands" to listOf(Command::class::qualifiedName),
-            "events" to listOf(Event::class::qualifiedName)
+            "errors" to listOf(
+                Error::class.java.name
+            ),
+            "commands" to listOf(
+                Command::class.java.name
+            )
         )
         ok().body(
             Mono.just(map), map.javaClass
@@ -597,7 +600,7 @@ class Rest {
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1<br>
-Last updated 2018-08-12 17:33:45 UTC
+Last updated 2018-08-12 17:38:06 UTC
 </div>
 </div>
 <!-- jquery -->
