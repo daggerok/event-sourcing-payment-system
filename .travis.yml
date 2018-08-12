@@ -6,23 +6,43 @@ env:
   - secure: OBJ2zAiFneAXuF7JYathcwaxFtEDtT3tm3fXDuRpdaV8T4bpmYe+bn3Dn/pJHCwPKsUN4TvSn7BvyhDT2yn2boHsFyuQaEB7yHpJJdwX5tgJeKiO9WqggfCND3djrbmt0Com0GBUmAK1vIFr6DdcUnvQpARjw8EJlLBtXKkuK0dEcKcRQJK9Zk7/rB78eLLZ16LiNoxnv6DhgXh1BVqFzg8d+OxFP7ZxHHm0wGeeRwmrflZYul3YVcox/mtrbhiKfS3DSsMEYCF3zKqkUIj1yO4b4ufRb2UbnydQIHQ9IhvKhyqN9N3ayUSJf9S7VIujOYJ8F02weogZVPJMQNjHXPsqxkI0tR4VDKTcCJ44xnvTVtGUWTVxLyPHLZVyR6M7bC0wwypzrx777NK7QNgxN0JoLCZKaKLiRO/XMvJadecQW8d6cUEhuKtitl0IFpeYPXp0qR9d7FIAvQIcHNWvzjhZwCMACStAFVScdYm/aHGdL5xtujk/IVBTlhGP6mUG89xxQBub+QUpey72E/sIMXBm1J9q6M20g+9RhpJmSs/VOk1VvY9mS7Yv7U9c5YkmgqkHR/sIp9q6Sy1EpPMrMZxXEzXmk4s+MAydl+0khext+pBInJFBRE44gMtY/mZOYO2iN62U8an4LMu7LGSmCPQQBO0L3i/has33akYx+1g=
 language: java
 jdk: oraclejdk8
+service:
+- docker
+
 addons:
   apt:
     update: true
     packages:
-    - sudo
-    - lsof
+    - libappindicator1
+    - fonts-liberation
     - bash
-    - unzip
     - curl
-    - jq
     - libxml2-utils
     - docker-ce
-    - python-pip
+    - google-chrome-stable
+
 install: true
-before_script:
-- sudo pip install docker-compose httpie >/dev/null 2>&1
+before_install:
+- nvm install lts/*
+- export CHROME_BIN=/usr/bin/google-chrome
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
 - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
+- stop_any 8080 80
+- sudo add-apt-repository universe -y
+- sudo apt-get update -yqq
+- sudo apt-get install -yqq --no-install-suggests --no-install-recommends tree jq python-pip
+- sudo pip install docker-compose httpie >/dev/null 2>&1
+- curl -s "https://get.sdkman.io" | bash
+- source "$HOME/.sdkman/bin/sdkman-init.sh"
+# latest stable version of Spring Boot CLI (for me at the moment is: 2.0.4)
+- sdk install springboot 2.0.4.RELEASE
+- sdk ls springboot
+- source "$HOME/.sdkman/bin/sdkman-init.sh"
+- spring install org.springframework.cloud:spring-cloud-cli:2.0.0.RELEASE
+- source "$HOME/.sdkman/bin/sdkman-init.sh"
+- spring cloud kafka &
+- wait_for 2181 9092
 script:
 - export root=$(pwd)
 # commands

@@ -2,3 +2,23 @@ spring:
   profiles:
     include:
     - spring-boot
+    - kafka
+---
+spring:
+  profiles:
+    active: spring-boot
+  output:
+    ansi:
+      enabled: always
+---
+spring:
+  profiles:
+    active: kafka
+  cloud:
+    stream:
+      kafka:
+        bindings:
+          output:
+            consumer.headerMode: raw
+            producer.headerMode: raw
+            destination: payments

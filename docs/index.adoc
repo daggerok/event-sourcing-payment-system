@@ -24,6 +24,15 @@ image:https://travis-ci.org/daggerok/{root-project-name}.svg?branch=master["Buil
 
 include::../README.adoc[tags=content]
 
+== Components
+
+- `api` - module contains all commands, events and errors defined in application
+- `commands-app` - REST API application for sending payment system commands throw kafka
+
+TODO:
+
+- `queries-app` - application for querying payment system
+
 == Prepare kafka
 
 .install spring boot cloud CLI
