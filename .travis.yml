@@ -25,7 +25,9 @@ before_script:
 - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
 script:
 - export root=$(pwd)
-- bash mvnw
+# commands
+- cd ${root}/commands-app
+- ./gradlew
 before_deploy:
 - cd ${root}
 - ./mvnw -Pdocs

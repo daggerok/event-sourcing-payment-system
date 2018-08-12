@@ -44,6 +44,14 @@ lsof -i:2181|awk '{print $2}'
 lsof -i:9092|awk '{print $2}'
 ----
 
+== Commands application
+
+.Commands REST API
+[source,kotlin]
+----
+include::../commands-app/src/main/java/daggerok/app/Rest.kt[tags=content]
+----
+
 == Links
 
 ifdef::backend-html5[- link:./index.pdf[Documentation in PFD format]]
