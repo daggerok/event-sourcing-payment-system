@@ -58,10 +58,10 @@ include::../api/src/main/kotlin/daggerok/api/Api.kt[tags=content]
 [source,gradle]
 ----
 // file: settings.gradle
-include::./commands-app/settings.gradle[]
+include::../commands-app/settings.gradle[]
 
 // file: gradle/java.gradle
-include::./commands-app/gradle/java.gradle[]
+include::../commands-app/gradle/java.gradle[]
 ----
 
 .Commands REST API
