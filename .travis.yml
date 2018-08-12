@@ -25,12 +25,13 @@ before_script:
 - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
 script:
 - export root=$(pwd)
-# api
-- cd ${root}/api
-- ./gradlew
 # commands
 - cd ${root}/commands-app
-- ./gradlew
+- ./gradlew >/dev/null
+- bash build/libs/*.jar &
+- wait_for 8080
+- http :8080
+- stop_any 8080
 before_deploy:
 - cd ${root}
 - ./mvnw -Pdocs

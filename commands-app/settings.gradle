@@ -1,2 +1,8 @@
 rootProject.name = 'commands-app'
 enableFeaturePreview 'STABLE_PUBLISHING'
+
+includeBuild('../api') {
+  dependencySubstitution {
+    substitute module('com.github.daggerok:api') with project(':')
+  }
+}

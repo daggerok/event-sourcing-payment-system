@@ -1,5 +1,8 @@
 package daggerok.app
 
+import daggerok.api.Command
+import daggerok.api.Error
+import daggerok.api.Event
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
@@ -16,7 +19,11 @@ class Rest {
     ("/").nest {
       contentType(MediaType.APPLICATION_JSON_UTF8)
       GET("/**") {
-        val map = mapOf("hello" to "world")
+        val map = mapOf(
+            "errors" to listOf(Error::class.java.name),
+            "commands" to listOf(Command::class.java.name),
+            "events" to listOf(Event::class.java.name)
+        )
         ok().body(
             Mono.just(map), map.javaClass
         )
