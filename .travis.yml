@@ -26,10 +26,10 @@ before_script:
 script:
 - export root=$(pwd)
 - bash mvnw
-- bash gradlew
 before_deploy:
 - cd ${root}
-- "./mvnw -Pdocs"
+- ./mvnw -Pdocs
+- cp -Rf ./target/generated-docs/index.html ./target/generated-docs/404.html
 deploy:
   provider: pages
   skip-cleanup: true

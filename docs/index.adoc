@@ -27,6 +27,7 @@ include::../README.adoc[tags=content]
 == Prepare kafka
 
 .install spring boot cloud CLI
+[source,bash]
 ----
 brew tap pivotal/tap
 brew search spring
