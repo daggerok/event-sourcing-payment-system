@@ -4,7 +4,7 @@
 <book xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
 <info>
 <title>event-sourcing-payment-system (0.0.1)</title>
-<date>2018-08-12 16:33:40 UTC</date>
+<date>2018-08-12 17:33:45 UTC</date>
 <author>
 <personname>
 <firstname>Maksim</firstname>
@@ -16,7 +16,7 @@
 <revhistory>
 <revision>
 <revnumber>0.0.1</revnumber>
-<date>2018-08-12 16:33:40 UTC</date>
+<date>2018-08-12 17:33:45 UTC</date>
 <authorinitials>MK</authorinitials>
 </revision>
 </revhistory>
@@ -42,7 +42,7 @@
 <formalpara>
 <title>install spring boot cloud CLI</title>
 <para>
-<screen>brew tap pivotal/tap
+<programlisting language="bash" linenumbering="unnumbered">brew tap pivotal/tap
 brew search spring
 brew install springboot
 
@@ -54,7 +54,56 @@ spring cloud kafka
 lsof -i:2181|awk '{print $2}'
 
 # check if kafka is running:
-lsof -i:9092|awk '{print $2}'</screen>
+lsof -i:9092|awk '{print $2}'</programlisting>
+</para>
+</formalpara>
+</chapter>
+<chapter xml:id="cqrs-and-event-sourcing-api-commands-queries-errors">
+<title>CQRS and Event Sourcing API (commands, queries, errors)</title>
+<formalpara>
+<title>Commands REST API</title>
+<para>
+<programlisting language="kotlin" linenumbering="unnumbered">sealed class Error(override val message: String) : RuntimeException(message)
+sealed class Command
+sealed class Event</programlisting>
+</para>
+</formalpara>
+</chapter>
+<chapter xml:id="commands-application">
+<title>Commands application</title>
+<formalpara>
+<title>Including api project as included build using gradle composit builds approach</title>
+<para>
+<programlisting language="gradle" linenumbering="unnumbered">// file: settings.gradle
+Unresolved directive in index.adoc - include::./commands-app/settings.gradle[]
+
+// file: gradle/java.gradle
+Unresolved directive in index.adoc - include::./commands-app/gradle/java.gradle[]</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>Commands REST API</title>
+<para>
+<programlisting language="kotlin" linenumbering="unnumbered">@Configuration
+class Rest {
+
+  @Bean
+  fun routes() = router {
+    ("/").nest {
+      contentType(MediaType.APPLICATION_JSON_UTF8)
+      GET("/**") {
+        val map = mapOf(
+            "errors" to listOf(Error::class::qualifiedName),
+            "commands" to listOf(Command::class::qualifiedName),
+            "events" to listOf(Event::class::qualifiedName)
+        )
+        ok().body(
+            Mono.just(map), map.javaClass
+        )
+      }
+    }
+  }
+}</programlisting>
 </para>
 </formalpara>
 </chapter>
