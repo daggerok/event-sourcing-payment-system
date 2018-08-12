@@ -40,7 +40,9 @@ deploy:
   local-dir: target/generated-docs
   target_branch: gh-pages
 before_cache:
-- bash -c 'for item in $(find ~/.gradle -name "*.lock"); do sudo rm -rf $item ; done'
+- for item in $(find ~/.gradle -name "*.lock");
+    do sudo rm -rf $item ;
+  done
 cache:
   directories:
   - "$HOME/.m2"
