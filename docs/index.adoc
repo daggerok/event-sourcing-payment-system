@@ -44,6 +44,14 @@ lsof -i:2181|awk '{print $2}'
 lsof -i:9092|awk '{print $2}'
 ----
 
+== CQRS and Event Sourcing API (commands, queries, errors)
+
+.Commands REST API
+[source,kotlin]
+----
+include::../api/src/main/kotlin/daggerok/api/Api.kt[tags=content]
+----
+
 == Commands application
 
 .Commands REST API
