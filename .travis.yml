@@ -1,0 +1,48 @@
+service:
+- docker
+env:
+  global:
+  - TERM=dumb
+  - secure: OBJ2zAiFneAXuF7JYathcwaxFtEDtT3tm3fXDuRpdaV8T4bpmYe+bn3Dn/pJHCwPKsUN4TvSn7BvyhDT2yn2boHsFyuQaEB7yHpJJdwX5tgJeKiO9WqggfCND3djrbmt0Com0GBUmAK1vIFr6DdcUnvQpARjw8EJlLBtXKkuK0dEcKcRQJK9Zk7/rB78eLLZ16LiNoxnv6DhgXh1BVqFzg8d+OxFP7ZxHHm0wGeeRwmrflZYul3YVcox/mtrbhiKfS3DSsMEYCF3zKqkUIj1yO4b4ufRb2UbnydQIHQ9IhvKhyqN9N3ayUSJf9S7VIujOYJ8F02weogZVPJMQNjHXPsqxkI0tR4VDKTcCJ44xnvTVtGUWTVxLyPHLZVyR6M7bC0wwypzrx777NK7QNgxN0JoLCZKaKLiRO/XMvJadecQW8d6cUEhuKtitl0IFpeYPXp0qR9d7FIAvQIcHNWvzjhZwCMACStAFVScdYm/aHGdL5xtujk/IVBTlhGP6mUG89xxQBub+QUpey72E/sIMXBm1J9q6M20g+9RhpJmSs/VOk1VvY9mS7Yv7U9c5YkmgqkHR/sIp9q6Sy1EpPMrMZxXEzXmk4s+MAydl+0khext+pBInJFBRE44gMtY/mZOYO2iN62U8an4LMu7LGSmCPQQBO0L3i/has33akYx+1g=
+language: java
+jdk: oraclejdk8
+addons:
+  apt:
+    update: true
+    packages:
+    - sudo
+    - lsof
+    - bash
+    - unzip
+    - curl
+    - jq
+    - libxml2-utils
+    - docker-ce
+    - python-pip
+install: true
+before_script:
+- sudo pip install docker-compose httpie >/dev/null 2>&1
+- source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
+script:
+- export root=$(pwd)
+- bash mvnw
+- bash gradlew
+before_deploy:
+- cd ${root}
+- "./mvnw -Pdocs"
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: "$GITHUB_TOKEN"
+  keep-history: true
+  on:
+    branch: master
+  local-dir: target/generated-docs
+  target_branch: gh-pages
+before_cache:
+- bash -c 'for item in $(find ~/.gradle -name "*.lock"); do sudo rm -rf $item ; done'
+cache:
+  directories:
+  - "$HOME/.m2"
+  - "$HOME/.gradle"
+  - "$HOME/.docker"

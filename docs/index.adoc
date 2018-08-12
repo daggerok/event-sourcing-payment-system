@@ -1,0 +1,50 @@
+ifdef::backend-html5[]
+= {root-project-name} ({project-version}) image:https://travis-ci.org/daggerok/{root-project-name}.svg?branch=master["Build Status", link={github-url}]
+endif::backend-html5[]
+ifndef::backend-html5[]
+= {root-project-name} ({project-version})
+endif::backend-html5[]
+Maksim Kostromin <daggerok@gmail.com>
+{docdatetime}
+:docinfo:
+:doctype: book
+:toc: left
+:toclevels: 4
+:numbered:
+:icons: font
+:hide-uri-scheme:
+:revnumber: {project-version}
+:example-caption!:
+:source-highlighter: highlightjs
+
+Travis CI status:
+image:https://travis-ci.org/daggerok/{root-project-name}.svg?branch=master["Build Status", link={github-url}]
+
+== Introduction
+
+include::../README.adoc[tags=content]
+
+== Prepare kafka
+
+.install spring boot cloud CLI
+----
+brew tap pivotal/tap
+brew search spring
+brew install springboot
+
+spring install org.springframework.cloud:spring-cloud-cli:2.0.0.RELEASE
+
+spring cloud kafka
+
+# check if zookepper is running:
+lsof -i:2181|awk '{print $2}'
+
+# check if kafka is running:
+lsof -i:9092|awk '{print $2}'
+----
+
+== Links
+
+ifdef::backend-html5[- link:./index.pdf[Documentation in PFD format]]
+- link:{github-url}[GitHub repo]
+- link:https://daggerok.github.io/{root-project-name}[GitHub pages]
